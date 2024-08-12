@@ -378,6 +378,11 @@ public final class DecimalNum implements Num {
         return new DecimalNum(result, precision);
     }
 
+    @Override
+    public Num multiply(Num multiplicand) {
+        return multipliedBy(multiplicand);
+    }
+
     /**
      * Returns a {@code Num} whose value is {@code (this / divisor)}, with rounding
      * according to the context settings.
@@ -393,6 +398,11 @@ public final class DecimalNum implements Num {
         int precision = mathContext.getPrecision();
         BigDecimal result = delegate.divide(bigDecimal, new MathContext(precision, RoundingMode.HALF_UP));
         return new DecimalNum(result, precision);
+    }
+
+    @Override
+    public Num div(Num divisor) {
+        return dividedBy(divisor);
     }
 
     /**

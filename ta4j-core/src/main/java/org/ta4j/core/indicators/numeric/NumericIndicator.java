@@ -23,6 +23,17 @@
  */
 package org.ta4j.core.indicators.numeric;
 
+import java.util.AbstractList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Spliterator;
+import java.util.function.IntFunction;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 import org.ta4j.core.BarSeries;
 import org.ta4j.core.Indicator;
 import org.ta4j.core.Rule;
@@ -62,7 +73,7 @@ import org.ta4j.core.rules.UnderIndicatorRule;
  * objects. These are also overloaded to accept both {@code Indicator<Num>} and
  * {@code Number} arguments.
  */
-public class NumericIndicator implements Indicator<Num> {
+public class NumericIndicator implements Indicator<Num>, Comparable<NumericIndicator>, List<Num>  {
 
     /**
      * Creates a fluent NumericIndicator wrapped around a "regular" indicator.
@@ -143,12 +154,20 @@ public class NumericIndicator implements Indicator<Num> {
         return NumericIndicator.of(BinaryOperation.product(this, other));
     }
 
+    public NumericIndicator multiply(Indicator<Num> other) {
+        return multipliedBy(other);
+    }
+
     /**
      * @param n the other number
      * @return {@code this * n}, rounded as necessary
      */
     public NumericIndicator multipliedBy(Number n) {
         return multipliedBy(createConstant(n));
+    }
+
+    public NumericIndicator multiply(Number n) {
+        return multipliedBy(n);
     }
 
     /**
@@ -159,12 +178,20 @@ public class NumericIndicator implements Indicator<Num> {
         return NumericIndicator.of(BinaryOperation.quotient(this, other));
     }
 
+    public NumericIndicator div(Indicator<Num> other) {
+        return dividedBy(other);
+    }
+
     /**
      * @param n the other number
      * @return {@code this / n}, rounded as necessary
      */
     public NumericIndicator dividedBy(Number n) {
         return dividedBy(createConstant(n));
+    }
+
+    public NumericIndicator div(Number n) {
+        return dividedBy(n);
     }
 
     /**
@@ -376,4 +403,182 @@ public class NumericIndicator implements Indicator<Num> {
         return delegate.toString();
     }
 
+    @Override
+    public Num get(int index) {
+        return delegate.getValue(index);
+    }
+
+    @Override
+    public Num set(int index, Num element) {
+        return null;
+    }
+
+    @Override
+    public void add(int index, Num element) {
+
+    }
+
+    @Override
+    public Num remove(int index) {
+        return null;
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        return 0;
+    }
+
+    @Override
+    public int lastIndexOf(Object o) {
+        return 0;
+    }
+
+    @Override
+    public ListIterator<Num> listIterator() {
+        return null;
+    }
+
+    @Override
+    public ListIterator<Num> listIterator(int index) {
+        return null;
+    }
+
+    @Override
+    public List<Num> subList(int fromIndex, int toIndex) {
+        return List.of();
+    }
+
+    @Override
+    public Spliterator<Num> spliterator() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Stream<Num> stream() {
+        return delegate.stream();
+    }
+
+    @Override
+    public Stream<Num> parallelStream() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int size() {
+        return delegate.getBarSeries().getBarCount();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return delegate.getBarSeries().isEmpty();
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        if (o instanceof Num) {
+            Num num = (Num) o;
+            for (int i = 0; i < size(); i++) {
+                if (get(i).equals(num)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Iterator<Num> iterator() {
+        return delegate.stream().iterator();
+    }
+
+    @Override
+    public Object[] toArray() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean add(Num num) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends Num> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends Num> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public <T> T[] toArray(IntFunction<T[]> generator) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean removeIf(Predicate<? super Num> filter) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void replaceAll(UnaryOperator<Num> operator) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void sort(Comparator<? super Num> c) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void clear() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int compareTo(NumericIndicator other) {
+        Num thisValue = this.getValue(this.getBarSeries().getEndIndex());
+        Num otherValue = other.getValue(other.getBarSeries().getEndIndex());
+        return thisValue.compareTo(otherValue);
+    }
+
+    // Optionally, you might want to override the equals and hashCode methods as well:
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        NumericIndicator that = (NumericIndicator) obj;
+        return this.compareTo(that) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getValue(this.getBarSeries().getEndIndex()).hashCode();
+    }
 }

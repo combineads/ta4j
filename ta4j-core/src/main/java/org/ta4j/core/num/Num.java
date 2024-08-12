@@ -96,6 +96,7 @@ public interface Num extends Comparable<Num>, Serializable {
      * @return {@code this * multiplicand}, rounded as necessary
      */
     Num multipliedBy(Num multiplicand);
+    Num multiply(Num multiplicand);
 
     /**
      * Returns a {@code Num} whose value is {@code (this / divisor)}.
@@ -104,6 +105,7 @@ public interface Num extends Comparable<Num>, Serializable {
      * @return {@code this / divisor}, rounded as necessary
      */
     Num dividedBy(Num divisor);
+    Num div(Num divisor);
 
     /**
      * Returns a {@code Num} whose value is {@code (this % divisor)}.

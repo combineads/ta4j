@@ -178,12 +178,22 @@ public class DoubleNum implements Num {
     }
 
     @Override
+    public Num multiply(Num multiplicand) {
+        return multipliedBy(multiplicand);
+    }
+
+    @Override
     public Num dividedBy(Num divisor) {
         if (divisor.isNaN() || divisor.isZero()) {
             return NaN;
         }
         DoubleNum divisorD = (DoubleNum) divisor;
         return new DoubleNum(delegate / divisorD.delegate);
+    }
+
+    @Override
+    public Num div(Num divisor) {
+        return dividedBy(divisor);
     }
 
     @Override
