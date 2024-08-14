@@ -8,6 +8,8 @@ import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
+import org.ta4j.core.indicators.helpers.ClosePriceIndicator;
+import org.ta4j.core.indicators.numeric.NumericIndicator;
 import org.ta4j.core.num.DecimalNum;
 
 public class FixedDateBarSeriesTest {
@@ -52,7 +54,7 @@ public class FixedDateBarSeriesTest {
     List<Bar> bars = Arrays.asList(bar1, bar2, bar3);
     FixedDateBarSeries series = new FixedDateBarSeries("Test Series", baseDate, bars);
 
-    assertEquals(4, series.getBarCount());  // 3개의 Bar가 있지만, 전체 범위에서 4개의 인덱스를 가진다.
+    assertEquals(3, series.getBarCount());
   }
 
   @Test
@@ -102,7 +104,7 @@ public class FixedDateBarSeriesTest {
     List<Bar> bars = Arrays.asList(bar1, bar2, bar3, bar4);
     FixedDateBarSeries series = new FixedDateBarSeries("Test Series", baseDate, bars);
 
-    assertEquals(5, series.getBarCount());
+    assertEquals(4, series.getBarCount());
     BarSeries subSeries = series.getSubSeries(2, 4);
     assertEquals(2, subSeries.getBarCount());
     assertEquals(bar2, subSeries.getBar(0));
@@ -170,5 +172,25 @@ public class FixedDateBarSeriesTest {
     int expectedIndex = series.getIndex(endTimeCurrent);
     assertEquals(barCurrent, series.getBar(expectedIndex));
     assertEquals(series.getEndIndex(), expectedIndex);  // currentDate가 리스트에 있는 마지막 바를 나타내야 한다.
+  }
+
+  @Test
+  public void testNumericIndicator() {
+    ZonedDateTime endTime1 = currentDate.plus(timePeriod);
+    ZonedDateTime endTime2 = currentDate.plus(timePeriod.multipliedBy(2));
+    ZonedDateTime endTime3 = currentDate.plus(timePeriod.multipliedBy(3));
+
+    Bar bar1 = createMockBar(endTime1, 1);
+    Bar bar2 = createMockBar(endTime2, 2);
+    Bar bar3 = createMockBar(endTime3, 3);
+
+    List<Bar> bars = Arrays.asList(bar1, bar2, bar3);
+    FixedDateBarSeries series = new FixedDateBarSeries("Test Series", baseDate, bars);
+    NumericIndicator close = NumericIndicator.of(new ClosePriceIndicator(series));
+
+    int beginIndex = series.getBeginIndex();
+    assertEquals(bar1.getClosePrice(), close.getValue(beginIndex++));
+    assertEquals(bar2.getClosePrice(), close.getValue(beginIndex++));
+    assertEquals(bar3.getClosePrice(), close.getValue(beginIndex));
   }
 }

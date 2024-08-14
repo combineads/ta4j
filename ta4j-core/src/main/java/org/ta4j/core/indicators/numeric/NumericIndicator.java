@@ -410,42 +410,42 @@ public class NumericIndicator implements Indicator<Num>, Comparable<NumericIndic
 
     @Override
     public Num set(int index, Num element) {
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void add(int index, Num element) {
-
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public Num remove(int index) {
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public ListIterator<Num> listIterator() {
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public ListIterator<Num> listIterator(int index) {
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public List<Num> subList(int fromIndex, int toIndex) {
-        return List.of();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -475,15 +475,7 @@ public class NumericIndicator implements Indicator<Num>, Comparable<NumericIndic
 
     @Override
     public boolean contains(Object o) {
-        if (o instanceof Num) {
-            Num num = (Num) o;
-            for (int i = 0; i < size(); i++) {
-                if (get(i).equals(num)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

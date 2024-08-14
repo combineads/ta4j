@@ -75,7 +75,7 @@ public class FixedDateBarSeries implements BarSeries {
 
   @Override
   public int getBarCount() {
-    return getBeginIndex() + bars.size();
+    return bars.size();
   }
 
   @Override
