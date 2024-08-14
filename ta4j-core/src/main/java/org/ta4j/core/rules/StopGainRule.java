@@ -23,6 +23,7 @@
  */
 package org.ta4j.core.rules;
 
+import org.ta4j.core.Indicator;
 import org.ta4j.core.Position;
 import org.ta4j.core.TradingRecord;
 import org.ta4j.core.indicators.helpers.ClosePriceIndicator;
@@ -39,8 +40,8 @@ public class StopGainRule extends AbstractRule {
     /** The constant value for 100. */
     private final Num HUNDRED;
 
-    /** The close price indicator. */
-    private final ClosePriceIndicator closePrice;
+    /** The price indicator. */
+    private final Indicator<Num> closePrice;
 
     /** The gain percentage. */
     private final Num gainPercentage;
@@ -48,23 +49,23 @@ public class StopGainRule extends AbstractRule {
     /**
      * Constructor.
      *
-     * @param closePrice     the close price indicator
+     * @param indicator     the close price indicator
      * @param gainPercentage the gain percentage
      */
-    public StopGainRule(ClosePriceIndicator closePrice, Number gainPercentage) {
-        this(closePrice, closePrice.numOf(gainPercentage));
+    public StopGainRule(Indicator<Num> indicator, Number gainPercentage) {
+        this(indicator, indicator.numOf(gainPercentage));
     }
 
     /**
      * Constructor.
      *
-     * @param closePrice     the close price indicator
+     * @param indicator     the close price indicator
      * @param gainPercentage the gain percentage
      */
-    public StopGainRule(ClosePriceIndicator closePrice, Num gainPercentage) {
-        this.closePrice = closePrice;
+    public StopGainRule(Indicator<Num> indicator, Num gainPercentage) {
+        this.closePrice = indicator;
         this.gainPercentage = gainPercentage;
-        HUNDRED = closePrice.numOf(100);
+        HUNDRED = indicator.numOf(100);
     }
 
     /** This rule uses the {@code tradingRecord}. */

@@ -23,6 +23,7 @@
  */
 package org.ta4j.core.rules;
 
+import org.ta4j.core.Indicator;
 import org.ta4j.core.Position;
 import org.ta4j.core.TradingRecord;
 import org.ta4j.core.indicators.helpers.ClosePriceIndicator;
@@ -40,8 +41,7 @@ public class StopLossRule extends AbstractRule {
     private final Num HUNDRED;
 
     /** The close price indicator. */
-    private final ClosePriceIndicator closePrice;
-
+    private final Indicator<Num> closePrice;
     /** The loss percentage. */
     private final Num lossPercentage;
 
@@ -51,7 +51,7 @@ public class StopLossRule extends AbstractRule {
      * @param closePrice     the close price indicator
      * @param lossPercentage the loss percentage
      */
-    public StopLossRule(ClosePriceIndicator closePrice, Number lossPercentage) {
+    public StopLossRule(Indicator<Num> closePrice, Number lossPercentage) {
         this(closePrice, closePrice.numOf(lossPercentage));
     }
 
@@ -61,7 +61,7 @@ public class StopLossRule extends AbstractRule {
      * @param closePrice     the close price indicator
      * @param lossPercentage the loss percentage
      */
-    public StopLossRule(ClosePriceIndicator closePrice, Num lossPercentage) {
+    public StopLossRule(Indicator<Num> closePrice, Num lossPercentage) {
         this.closePrice = closePrice;
         this.lossPercentage = lossPercentage;
         this.HUNDRED = closePrice.numOf(100);
