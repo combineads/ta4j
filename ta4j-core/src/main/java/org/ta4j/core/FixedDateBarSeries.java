@@ -9,11 +9,17 @@ import org.ta4j.core.num.Num;
 
 public class FixedDateBarSeries implements BarSeries {
 
+  private static final ZonedDateTime DEFAULT_BASE_DATE = ZonedDateTime.parse("2024-01-01T00:00:00Z");
+
   private final ZonedDateTime baseDate;
   private final List<Bar> bars;
   private final String name;
   private final Num num;
   private final Duration timePeriod;
+
+  public FixedDateBarSeries(String name, List<Bar> bars) {
+    this(name, DEFAULT_BASE_DATE, bars);
+  }
 
   public FixedDateBarSeries(String name, ZonedDateTime baseDate, List<Bar> bars) {
     this.name = name;
