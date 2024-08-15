@@ -9,7 +9,7 @@ import org.ta4j.core.num.Num;
 
 public class FixedDateBarSeries implements BarSeries {
 
-  private static final ZonedDateTime DEFAULT_BASE_DATE = ZonedDateTime.parse("2024-01-01T00:00:00Z");
+  public static final ZonedDateTime DEFAULT_BASE_DATE = ZonedDateTime.parse("2024-01-01T00:00:00Z");
 
   private final ZonedDateTime baseDate;
   private final List<Bar> bars;
